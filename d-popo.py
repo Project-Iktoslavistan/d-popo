@@ -28,6 +28,10 @@ import aiomysql, asyncio, json
 dpol = commands.Bot(command_prefix="%")
 loop = asyncio.get_event_loop()
 
+settings_file = open("./login.json", 'r')
+settings = json.loads(settings_file.read())
+settings_file.close()
+
 # Link Start!
 @dpol.event
 async def on_ready():
@@ -39,7 +43,10 @@ async def on_ready():
 #ctx is for context
 @dpol.command(pass_context=True)
 async def records(ctx, user:discord.Member):
-    asqlconn = await aiomysql.connect(host, port, user, password, db, loop = loop)
+    
+    asql = await aiomysql.connect(settings["sqlhost"], port, settings["sqluser"], settings["sqlpassword"], settings["sqldb"], loop = loop)
+    
+    
   
 
 # Replace token with your own development token.
