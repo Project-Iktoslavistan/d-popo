@@ -28,11 +28,10 @@ import aiomysql, asyncio, json
 dpol = commands.Bot(command_prefix="%")
 loop = asyncio.get_event_loop()
 
-settings_file = open("./login.json", 'r')
-settings = json.loads(settings_file.read())
-settings_file.close()
+with open("./login.json", 'r') as settings_file:
+    settings = json.loads(settings_file.read())
 
-# Link Start!
+# IEPD, reporting for duty!
 @dpol.event
 async def on_ready():
     print("D-Popo is online. Start Time: %s" % time.strftime("%Y-%m-%d %H:%M:%S"))
@@ -41,13 +40,31 @@ async def on_ready():
 
 
 #ctx is for context
-@dpol.command(pass_context=True)
+
+@dpol.command(pass_context = True)
 async def records(ctx, user:discord.Member):
-    
     asql = await aiomysql.connect(settings["sqlhost"], port, settings["sqluser"], settings["sqlpassword"], settings["sqldb"], loop = loop)
-    
-    
-  
+
+@dpol.command(pass_context = True)
+async def reports(ctx, action:str="lookup", rtype:str = "complaint", description:str = "", handler:discord.Member = ctx.message.author):
+    if action == "lookup":
+        # look up case reports.
+        if rtype == "complaint":
+        elif rtype == "crime":
+        else:
+            # look up by case number.
+    elif action == "file":
+        # file a new case report.
+        if rtype == "complaint":
+        elif rtype == "crime":
+        else:
+            # complain.
+            await dpol.say("I cannot file a new report with that information.")
+    elif action == "close":
+        # close a case report.
+    elif action == "open":
+        # open or reopen a closed report.
+
 
 # Replace token with your own development token.
 dpol.run('token')
